@@ -123,9 +123,10 @@
         },
         "VolumeType": {
             "Type": "String",
-            "Description": "EBS Volume Type (data) to be attached to node in GBs [io1,gp2]",
-            "Default": "gp2",
+            "Description": "EBS Volume Type (data) to be attached to node in GBs [io1,gp3]",
+            "Default": "gp3",
             "AllowedValues": [
+                "gp3",
                 "gp2",
                 "io1"
             ]
