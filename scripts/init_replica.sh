@@ -40,6 +40,14 @@ name=MongoDB Repository
 baseurl=http://repo.mongodb.org/yum/amazon/2/mongodb-org/${version}/x86_64/
 gpgcheck=0
 enabled=1" > /etc/yum.repos.d/mongodb-org-${version}.repo
+elif [ "$version" == "4.4.15" ];
+then
+echo "[mongodb-enterprise-4.4]
+name=MongoDB Enterprise Repository
+baseurl=https://repo.mongodb.com/yum/amazon/2/mongodb-enterprise/4.4/x86_64/
+gpgcheck=1
+enabled=1
+gpgkey=https://www.mongodb.org/static/pgp/server-4.4.asc" > /etc/yum.repos.d/mongodb-enterprise-4.4.repo
 else
 echo "[mongodb-org-${version}]
 name=MongoDB Repository
@@ -51,12 +59,19 @@ fi
 # To be safe, wait a bit for flush
 sleep 5
 
-amazon-linux-extras install epel
+amazon-linux-extras install epel -y
 
 yum --enablerepo=epel install node npm -y
 
+if [ "$version" == "4.4.15" ];
+then
+yum install -y mongodb-enterprise-4.4.15 mongodb-enterprise-server-4.4.15 mongodb-enterprise-shell-4.4.15 
+yum install -y mongodb-enterprise-mongos-4.4.15 mongodb-enterprise-tools-4.4.15
+else
 yum install -y mongodb-org mongodb-org-server mongodb-org-shell mongodb-org-tools
 yum install -y mongo-10gen-server
+fi
+
 yum install -y libcgroup libcgroup-tools sysstat munin-node
 
 #################################################################
@@ -182,7 +197,7 @@ EOF
 
 echo "net:" > mongod.conf
 echo "  port:" >> mongod.conf
-if [ "$version" == "3.6" ] || [ "$version" == "4.0" ] || [ "$version" == "4.2" ] || [ "$version" == "4.4" ]; then
+if [ "$version" == "3.6" ] || [ "$version" == "4.0" ] || [ "$version" == "4.2" ] || [ "$version" == "4.4" ] || [ "$version" == "4.4.15" ]; then
     echo "  bindIpAll: true" >> mongod.conf
 fi
 echo "" >> mongod.conf

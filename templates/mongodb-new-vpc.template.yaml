@@ -304,10 +304,11 @@ Parameters:
       - gp2
       - io1
   MongoDBVersion:
-    Default: '4.4'
+    Default: '4.4.15'
     Type: String
     Description: MongoDB version
     AllowedValues:
+      - '4.4.15'
       - '4.4'
       - '4.2'
       - '4.0'
